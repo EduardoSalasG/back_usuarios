@@ -2,8 +2,6 @@ const express = require('express')
 const cors = require('cors')
 
 // const { dbConnection } = require('../database/config')
-
-
 class Server {
 
     constructor() {
@@ -27,26 +25,26 @@ class Server {
     middlewares() {
 
         // CORS 
-        this.app.use( cors() );
+        this.app.use(cors());
 
         // Lectura y parseo del body
-        this.app.use( express.json() );
+        this.app.use(express.json());
 
     }
 
 
     routes() {
-        
+
         // this.app.use(this.usuariosPath, require('../routes/usuarios'))
 
 
     }
 
     listen() {
-        this.app.listen( this.port, () =>{
+        this.app.listen(this.port, () => {
             console.log(' Servidor corriendo en el puerto', this.port)
         })
-        
+
     }
 
 

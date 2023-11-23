@@ -1,11 +1,14 @@
-const express = require('express')
-const cors = require('cors')
+import express from 'express';
+import cors from 'cors';
 
 // const { dbConnection } = require('../database/config')
 class Server {
+    app: any;
+    port: any;
+    usuariosPath: string;
 
     constructor() {
-        this.app = express();
+        this.app  = express();
         this.port = process.env.PORT;
         this.usuariosPath = '/usuarios';
 

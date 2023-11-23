@@ -1,33 +1,33 @@
-const { request } = require('express');
+import { request, response } from 'express';
 
 
 
-const usuariosGet = async (req = request, res) => {
+const usuariosGet = async (req: Request, res: any) => {
     const respuesta = "Get"
-    res.json({respuesta})
+    res.json({ respuesta })
 }
 
-const usuariosGetById = async (req = request, res) => {
+const usuariosGetById = async (req: any, res: any) => {
     const { id } = req.params
     const respuesta = "GetByID"
-    res.json({respuesta, id})
+    res.json({ respuesta, id })
 }
 
-const usuariosPost = async (req = request, res) => {
+const usuariosPost = async (req: Request, res: any) => {
     const respuesta = "Post"
-    res.json({respuesta})
+    res.json({ respuesta })
 }
 
-const usuariosPut = async (req = request, res) => {
+const usuariosPut = async (req: any, res: any) => {
     const { id } = req.params
     const respuesta = "Put"
-    res.json({respuesta, id})
+    res.json({ respuesta, id })
 }
 
-const usuariosDelete = async (req = request, res) => {
+const usuariosDelete = async (req: any, res: any) => {
     const { id } = req.params
     const respuesta = "Delete"
-    res.json({respuesta, id})
+    res.json({ respuesta, id })
 }
 
 

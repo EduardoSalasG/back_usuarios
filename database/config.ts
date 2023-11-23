@@ -5,7 +5,7 @@ const USERNAME = process.env.USERNAME
 const PASSWORD = process.env.PASSWORD
 const DATABASE = process.env.DATABASE
 
-const dbConnection = createPool({
+const dbConnection: any = createPool({
     host: HOSTNAME,
     user: USERNAME,
     password: PASSWORD,

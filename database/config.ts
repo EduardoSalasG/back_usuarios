@@ -11,5 +11,13 @@ const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
     host: HOSTNAME,
     dialect: 'mysql'
 });
+const testConection = async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
 
-export default { sequelize };
+    }
+}
+export default { sequelize, testConection };

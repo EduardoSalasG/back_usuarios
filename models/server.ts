@@ -1,19 +1,21 @@
 import express from 'express';
 import cors from 'cors';
+// import testConection from '../database/config';
+// import sequelize from '../database/config';
+const Sequelize = require('sequelize');
 
-// const { dbConnection } = require('../database/config')
 class Server {
     app: any;
     port: any;
     usuariosPath: string;
 
     constructor() {
-        this.app  = express();
+        this.app = express();
         this.port = process.env.PORT;
         this.usuariosPath = '/usuarios';
 
         // Conectar a base de datos
-        // this.conectarDB();
+        this.conectarDB();
 
         //Middlewares
         this.middlewares();
@@ -22,9 +24,14 @@ class Server {
         this.routes();
     }
 
-    // async conectarDB() {
-    //     await dbConnection();
-    // }
+    async conectarDB() {
+        try {
+            await Sequelize.authenticate();
+            console.log('Connection has been established successfully.');
+        } catch (error) {
+            console.error('Unable to connect to the database:', error);
+        }
+    }
 
     middlewares() {
 

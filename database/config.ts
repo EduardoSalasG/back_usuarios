@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import fs from 'fs';
 
-const DBPORTDBDATABASE: any = process.env.PORTDBDATABASE
+const DBPORTDATABASE: any = process.env.DBPORTDATABASE
 const AZUREDBHOSTNAME: any = process.env.AZUREDBHOSTNAME
 const DBUSERNAME: any = process.env.DBUSERNAME
 const DBPASSWORD: any = process.env.DBPASSWORD
@@ -13,10 +13,10 @@ const sequelize = new Sequelize(DBDATABASE, DBUSERNAME, DBPASSWORD, {
     dialect: 'mysql',
     dialectOptions: {
         ssl: {
-            ca: fs.readFileSync('./DigiCertGlobalRootCA.crt.pem'),
-            rejectUnauthorized: false
+            ca: fs.readFileSync('DigiCertGlobalRootCA.crt.pem'),
+            rejectUnauthorized: true
         },
-        port: DBPORTDBDATABASE
+        port: DBPORTDATABASE
     },
 });
 const testConection = async () => {
@@ -24,7 +24,7 @@ const testConection = async () => {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
     } catch (error) {
-        console.error('Unable to connect to the DBDATABASE:', error, DBUSERNAME);
+        console.error('Unable to connect to the DBDATABASE:', error);
     }
 };
 

@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { testConection, sequelize } from '../database/config';
+import { testConection } from '../database/config';
 class Server {
     app: any;
     port: any;
@@ -22,7 +22,7 @@ class Server {
     }
 
     async conectarDB() {
-        await testConection(sequelize)
+        await testConection()
     }
 
     middlewares() {

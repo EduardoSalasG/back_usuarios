@@ -11,9 +11,9 @@ const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
     host: HOSTNAME,
     dialect: 'mysql'
 });
-const testConection = async (sequelizeInstance: any) => {
+const testConection = async () => {
     try {
-        await sequelizeInstance.authenticate();
+        await sequelize.authenticate();
         console.log('Connection has been established successfully.');
     } catch (error) {
         console.error('Unable to connect to the database:', error);

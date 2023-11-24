@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-const PORTDATABASE = process.env.PORTDATABASE
+const PORTDATABASE: any = process.env.PORTDATABASE
 const HOSTNAME: any = process.env.HOSTNAME
 const USERNAME: any = process.env.USERNAME
 const PASSWORD: any = process.env.PASSWORD

@@ -1,8 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-// import testConection from '../database/config';
-// import sequelize from '../database/config';
-const Sequelize = require('sequelize');
+import {testConection} from '../database/config';
 
 class Server {
     app: any;
@@ -25,12 +23,7 @@ class Server {
     }
 
     async conectarDB() {
-        try {
-            await Sequelize.authenticate();
-            console.log('Connection has been established successfully.');
-        } catch (error) {
-            console.error('Unable to connect to the database:', error);
-        }
+        await testConection();
     }
 
     middlewares() {

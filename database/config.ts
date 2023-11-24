@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
 
-const PORTDATABASE = process.env.PORTDATABASE
+const PORTDATABASE: any = process.env.PORTDATABASE
 const HOSTNAME: any = process.env.HOSTNAME
 const USERNAME: any = process.env.USERNAME
 const PASSWORD: any = process.env.PASSWORD
@@ -11,6 +11,7 @@ const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
     host: HOSTNAME,
     dialect: 'mysql'
 });
+
 const testConection = async () => {
     try {
         await sequelize.authenticate();
@@ -20,4 +21,4 @@ const testConection = async () => {
 
     }
 }
-export default { sequelize, testConection };
+export { sequelize, testConection };

@@ -1,9 +1,9 @@
-import { request, response } from 'express';
-
+import { Request, Response } from 'express';
+import { pregunta_seguridad } from '../models/pregunta_seguridad.model';
 
 
 const preguntas_seguridadGet = async (req: Request, res: any) => {
-    const respuesta = "Get"
+    const respuesta = await pregunta_seguridad.findAll()
     res.json({ respuesta })
 }
 

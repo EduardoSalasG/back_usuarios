@@ -1,10 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/config";
-import { tipo_usuario } from "./tipo_usuario.model";
-import { usuario } from "./usuario.model";
 
-
-export class tipo_usuario_usuario extends Model { }
+export class tipo_usuario_usuario extends Model {
+  static associate(models: any) {
+    tipo_usuario_usuario.belongsTo(models.tipo_usuario, { as: "TU", foreignKey: "TUS_ID" });
+    tipo_usuario_usuario.belongsTo(models.usuario, { as: "USU", foreignKey: "USU_ID" });
+  }
+}
 
 tipo_usuario_usuario.init({
   //Model attributes are defined here
@@ -35,15 +37,3 @@ tipo_usuario_usuario.init({
   sequelize, //We need to pass the connection instance
   modelName: 'tipo_usuario_usuario'
 });
-
-tipo_usuario_usuario.belongsTo(tipo_usuario,
-  {
-    as: "TU",
-    foreignKey: "TUS_ID"
-  });
-
-tipo_usuario_usuario.belongsTo(usuario,
-  {
-    as: "USU",
-    foreignKey: "USU_ID"
-  });

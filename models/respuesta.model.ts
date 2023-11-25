@@ -1,10 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/config";
-import { pregunta_seguridad } from "./pregunta_seguridad.model";
-import { usuario } from "./usuario.model";
 
-
-export class respuesta extends Model { }
+export class respuesta extends Model {
+  static associate(models: any) {
+    respuesta.belongsTo(models.pregunta_seguridad, { as: "PSE", foreignKey: "PSE_ID" });
+    respuesta.belongsTo(models.usuario, { as: "USU", foreignKey: "USU_ID" });
+  }
+}
 
 respuesta.init({
   //Model attributes are defined here
@@ -39,15 +41,3 @@ respuesta.init({
   sequelize, //We need to pass the connection instance
   modelName: 'respuesta'
 });
-
-respuesta.belongsTo(pregunta_seguridad,
-  {
-    as: "PSE",
-    foreignKey: "PSE_ID"
-  });
-
-respuesta.belongsTo(usuario,
-  {
-    as: "USU",
-    foreignKey: "USU_ID"
-  });

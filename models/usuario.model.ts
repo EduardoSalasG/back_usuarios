@@ -12,6 +12,12 @@ export class usuario extends Model {
 
 usuario.init({
   //Model attributes are defined here
+  USU_ID: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true
+  },
   USU_NOMBRE: {
     type: DataTypes.STRING(50),
     allowNull: false

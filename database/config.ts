@@ -18,7 +18,10 @@ const sequelize = new Sequelize(DBDATABASE, DBUSERNAME, DBPASSWORD, {
         },
         port: DBPORTDATABASE
     },
-});
+    define: {
+        freezeTableName: true
+    }
+},);
 const testConection = async () => {
     try {
         await sequelize.authenticate();

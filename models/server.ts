@@ -17,7 +17,7 @@ class Server {
         this.tipoUsuarioPath = '/tipo_usuarios'
         this.preguntaSeguridadPath = '/preguntas_seguridad'
         this.respuestasPath = '/respuestas'
-        this.tipoUsuarioUsuarios = '/respuestas'
+        this.tipoUsuarioUsuarios = '/tipo_usuario_usuarios'
 
         // Conectar a base de datos
         this.conectarDB();

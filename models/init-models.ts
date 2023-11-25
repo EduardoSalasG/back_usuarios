@@ -1,4 +1,4 @@
-import type { Sequelize } from "sequelize";
+import { sequelize } from "../database/config";
 import { pregunta_seguridad as _pregunta_seguridad } from "./pregunta_seguridad";
 import type { pregunta_seguridadAttributes, pregunta_seguridadCreationAttributes } from "./pregunta_seguridad";
 import { respuesta as _respuesta } from "./respuesta";
@@ -31,7 +31,7 @@ export type {
   usuarioCreationAttributes,
 };
 
-export function initModels(sequelize: Sequelize) {
+export function initModels() {
   const pregunta_seguridad = _pregunta_seguridad.initModel(sequelize);
   const respuesta = _respuesta.initModel(sequelize);
   const tipo_usuario = _tipo_usuario.initModel(sequelize);

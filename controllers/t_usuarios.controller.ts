@@ -59,19 +59,47 @@ const t_usuariosPost = async (req: Request, res: any) => {
 }
 
 const t_usuariosPut = async (req: Request, res: Response) => {
-    const { id, nombre, descripcion } = req.params
+    try {
+        const { id } = req.params;
+        const { body } = req;
+        tipo_usuario.update(body,{
+            where: {
+                TUS_ID: id
+            }
+        })    
 
-    res.json({ id })
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            message: "Usuario actualizado"
+        })
+
+    }catch(error) {
+        console.log(error)
+        return res.status(500).json({"message": "Hubo un error:", "error": error})
+    }
 }
 
-const t_usuariosDelete = async (req: any, res: any) => {
-    const { id } = req.params
-    const respuesta = "Delete"
-    res.json({ respuesta, id })
+const t_usuariosDelete = async (req: Request, res: Response) => {
+    try {
+        const { id, estado } = req.params;
+        tipo_usuario.update({TUS_ESTADO:estado}, {
+            where: {
+                TUS_ID: id
+            }
+        })    
+
+        res.status(200).json({
+            ok: true,
+            status: 200,
+            message: "Usuario actualizado"
+        })
+
+    }catch(error) {
+        console.log(error)
+        return res.status(500).json({"message": "Hubo un error:", "error": error})
+    }
 }
-
-
-
 
 module.exports = {
     t_usuariosGet,

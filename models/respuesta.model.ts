@@ -1,10 +1,10 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/config";
-import { pregunta_seguridad } from "./pregunta_seguridad.model";
 import { usuario } from "./usuario.model";
+import { pregunta_seguridad } from "./pregunta_seguridad.model";
 
 
-export class respuesta extends Model { }
+export class respuesta extends Model {}
 
 respuesta.init({
   //Model attributes are defined here

@@ -4,7 +4,7 @@ import { tipo_usuario } from "./tipo_usuario.model";
 import { usuario } from "./usuario.model";
 
 
-export class tipo_usuario_usuario extends Model { }
+export class tipo_usuario_usuario extends Model {}
 
 tipo_usuario_usuario.init({
   //Model attributes are defined here

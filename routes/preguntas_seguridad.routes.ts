@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+const { preguntas_seguridadGet, preguntas_seguridadGetById, preguntas_seguridadPost, preguntas_seguridadPut, preguntas_seguridadDelete } = require('../controllers/preguntas_seguridad.controller')
 
 const router = Router();
 

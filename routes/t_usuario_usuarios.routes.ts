@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+const { t_usuario_usuariosGet, t_usuario_usuariosGetById, t_usuario_usuariosPost, t_usuario_usuariosPut, t_usuario_usuariosDelete } = require('../controllers/t_usuario_usuarios.controller')
 
 const router = Router();
 

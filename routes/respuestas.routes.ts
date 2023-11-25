@@ -1,4 +1,5 @@
 import { Router } from "express";
+const { respuestasGet, respuestasGetById, respuestasPost, respuestasPut, respuestasDelete } = require('../controllers/respuestas.controller')
 
 
 const router = Router();

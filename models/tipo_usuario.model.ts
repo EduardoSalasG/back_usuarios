@@ -25,11 +25,7 @@ tipo_usuario.init({
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement:true,
-    references: {
-      model: 'tipo_usuario',
-      key: 'TUS_ID'
-    }
+    autoIncrement: true,
   },
   TUS_NOMBRE: {
     type: DataTypes.STRING,

@@ -10,6 +10,13 @@ export class pregunta_seguridad extends Model {
 
 pregunta_seguridad.init({
   //Model attributes are defined here
+  PSE_ID: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+
   PSE_ENUNCIADO: {
     type: DataTypes.STRING,
     allowNull: false,

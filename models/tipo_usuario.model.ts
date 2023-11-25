@@ -21,6 +21,16 @@ export class tipo_usuario extends Model {
 
 tipo_usuario.init({
   //Model attributes are defined here
+  TUS_ID: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement:true,
+    references: {
+      model: 'tipo_usuario',
+      key: 'TUS_ID'
+    }
+  },
   TUS_NOMBRE: {
     type: DataTypes.STRING,
     allowNull: false,

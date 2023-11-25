@@ -35,6 +35,10 @@ tipo_usuario.init({
   TUS_DESCRIPCION: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  TUS_ESTADO: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
   }
 }, {
   //Other model options go here

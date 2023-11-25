@@ -48,19 +48,19 @@ usuario.init({
   },
   USU_FECHA_CREACION: {
     type: DataTypes.DATE,
-    allowNull: true
+    allowNull: false
   },
   USU_FECHA_ACTUALIZACION_ULTIMA_PASS: {
     type: DataTypes.DATE,
-    allowNull: true
+    allowNull: false
   },
   USU_ULTIMA_PASS: {
     type: DataTypes.STRING(20),
-    allowNull: true
+    allowNull: false
   },
   USU_ESTADO: {
     type: DataTypes.BOOLEAN,
-    allowNull: true
+    allowNull: false
   }
 }, {
   //Other model options go here

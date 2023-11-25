@@ -1,10 +1,11 @@
 import { request, response } from 'express';
+import { respuesta } from '../models/respuesta.model';
 
 
 
 const respuestasGet = async (req: Request, res: any) => {
-    const respuesta = "Get"
-    res.json({ respuesta })
+    const resultado = await respuesta.findAll()
+    res.json({ resultado })
 }
 
 const respuestasGetById = async (req: any, res: any) => {

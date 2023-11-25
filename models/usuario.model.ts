@@ -1,7 +1,14 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../database/config";
 
-export class usuario extends Model { }
+export class usuario extends Model {
+  static associate(models: any) {
+    usuario.belongsToMany(models.pregunta_seguridad, { as: 'PSE_ID_pregunta_seguridad', through: models.respuesta, foreignKey: "USU_ID", otherKey: "PSE_ID" });
+    usuario.belongsToMany(models.tipo_usuario, { as: 'TUS_ID_tipo_usuarios', through: models.tipo_usuario_usuario, foreignKey: "USU_ID", otherKey: "TUS_ID" });
+    usuario.hasMany(models.respuesta, { as: "respuesta", foreignKey: "USU_ID" });
+    usuario.hasMany(models.tipo_usuario_usuario, { as: "tipo_usuario_usuarios", foreignKey: "USU_ID" });
+  }
+}
 
 usuario.init({
   //Model attributes are defined here

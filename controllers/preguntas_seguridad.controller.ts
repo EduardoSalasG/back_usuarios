@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { pregunta_seguridad } from '../models/pregunta_seguridad.model';
+import { existePreguntaSeguridad } from '../helpers/db-validators';
 
 
-const preguntas_seguridadGet = async (req: Request, res: any) => {
+const preguntas_seguridadGet = async (req: Request, res: Response) => {
     try {
-        const ps_seguridad = await pregunta_seguridad.findAll()
+        const ps_seguridad: pregunta_seguridad[] = await pregunta_seguridad.findAll()
         res.status(200).json({
             ok: true,
             status: 200,
@@ -17,22 +18,26 @@ const preguntas_seguridadGet = async (req: Request, res: any) => {
     }
 }
 
-const preguntas_seguridadGetById = async (req: any, res: any) => {
+const preguntas_seguridadGetById = async (req: Request, res: Response) => {
     const { id } = req.params
-    const p_seguridad = await pregunta_seguridad.findByPk(id);
 
-    if (p_seguridad) {
+    try {
+
+        const p_seguridad = await pregunta_seguridad.findByPk(id);
+
         res.status(200).json({
             ok: true,
             status: 200,
             body: p_seguridad
         })
-    } else {
-        return res.status(500).json({ "message": "Hubo un error:" })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ "message": "Hubo un error:", "error": error })
     }
 }
 
-const preguntas_seguridadPost = async (req: Request, res: any) => {
+const preguntas_seguridadPost = async (req: Request, res: Response) => {
     const { body } = req;
     try {
         const p_seguridad = new pregunta_seguridad(body);
@@ -45,7 +50,7 @@ const preguntas_seguridadPost = async (req: Request, res: any) => {
     }
 }
 
-const preguntas_seguridadPut = async (req: any, res: any) => {
+const preguntas_seguridadPut = async (req: Request, res: Response) => {
     const { id } = req.params
     const { body } = req;
     try {
@@ -62,7 +67,7 @@ const preguntas_seguridadPut = async (req: any, res: any) => {
     }
 }
 
-const preguntas_seguridadDelete = async (req: any, res: any) => {
+const preguntas_seguridadDelete = async (req: Request, res: Response) => {
     const { id, estado } = req.params
     try {
         const p_seguridad = await pregunta_seguridad.findByPk(id)

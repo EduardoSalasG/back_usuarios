@@ -6,10 +6,10 @@ const existeTipoUsuario = async (id: number) => {
     return (existeTipoUsuario == null) ? false : true
 }
 
-const existePreguntaSeguridad = async (id: number) => {
-    const existePreguntaSeguridad = await pregunta_seguridad.findByPk(id);
+const existePreguntaSeguridad = async (id: any) => {
+    const existePreguntaSeguridad = await pregunta_seguridad.findOne(id);
     if (!existePreguntaSeguridad) {
-        throw new Error('El id no existe')
+        throw new Error(`El id ${id} no existe`)
 
     }
 }

@@ -13,9 +13,9 @@ const respuestasGet = async (req: Request, res: Response) => {
 }
 
 const respuestasGetByUserId = async (req: Request, res: Response) => {
-    const { id } = req.params
+    const { id_usuario } = req.params
 
-    const respuestas = await respuesta.findByPk(id);
+    const respuestas = await respuesta.findByPk(id_usuario);
     res.status(200).json({
         ok: true,
         status: 200,

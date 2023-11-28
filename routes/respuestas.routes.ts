@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { check, param } from "express-validator";
+import { body, check, param } from "express-validator";
 import { validarCampos } from "../middlewares/validar-campos";
-import { existeRespuesta } from "../helpers/db-validators";
+import { existePreguntaSeguridad, existeRespuesta, existeRespuestaUsuario, existeUsuario } from "../helpers/db-validators";
 const { respuestasGet, respuestasGetByUserId, respuestasPost } = require('../controllers/respuestas.controller')
 
 
@@ -18,7 +18,12 @@ router.get('/:id', [
 ], respuestasGetByUserId);
 
 router.post('/', [
-    check('RES_RESPUESTA', 'Debes ingresar el enunciado de la respuesta').notEmpty(),
+    check('RES_RESPUESTA', 'Debe ingresar el enunciado de la respuesta').notEmpty(),
+    check('PSE_ID', 'Debe ingresar el id de la pregunta de seguridad').notEmpty(),
+    check('USU_ID', 'Debe ingresar el id del usuario').notEmpty(),
+    check('PSE_ID').custom(existePreguntaSeguridad),
+    check('USU_ID').custom(existeUsuario),
+    body('').custom(existeRespuestaUsuario),
     validarCampos
 ], respuestasPost);
 

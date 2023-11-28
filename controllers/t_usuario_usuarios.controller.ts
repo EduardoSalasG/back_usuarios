@@ -1,30 +1,63 @@
-import { request, response } from 'express';
+import { Request, Response } from 'express';
+import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
+import { tipo_usuario } from '../models/tipo_usuario.model';
+import { NOW } from 'sequelize';
 
 
+//FIXME: Arreglar include: "is not associated"
+const t_usuario_usuariosGetByUserId = async (req: Request, res: Response) => {
 
-const t_usuario_usuariosGet = async (req: Request, res: any) => {
-    const respuesta = "Get"
-    res.json({ respuesta })
-}
-
-const t_usuario_usuariosGetById = async (req: any, res: any) => {
     const { id } = req.params
-    const respuesta = "GetByID"
-    res.json({ respuesta, id })
+
+    const ts_usuario_usuario: tipo_usuario_usuario[] = await tipo_usuario_usuario.findAll({
+        where: {
+            USU_ID: id
+        },
+        attributes: ['TUS_ID']
+    })
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: ts_usuario_usuario
+    })
 }
 
-const t_usuario_usuariosPost = async (req: Request, res: any) => {
-    const respuesta = "Post"
-    res.json({ respuesta })
-}
+const t_usuario_usuariosGeUsers = async (req: Request, res: Response) => {
 
-const t_usuario_usuariosPut = async (req: any, res: any) => {
     const { id } = req.params
-    const respuesta = "Put"
-    res.json({ respuesta, id })
+
+    const ts_usuario_usuario: tipo_usuario_usuario[] = await tipo_usuario_usuario.findAll({
+        where: {
+            TUS_ID: id
+        },
+        attributes: ['USU_ID']
+    })
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: ts_usuario_usuario
+    })
 }
 
-const t_usuario_usuariosDelete = async (req: any, res: any) => {
+const t_usuario_usuariosPost = async (req: Request, res: Response) => {
+    const { USU_ID, TUS_ID } = req.body;
+
+    await tipo_usuario_usuario.create({
+        USU_ID: USU_ID,
+        TUS_ID: TUS_ID,
+        TUU_FECHA_ACTIVACION: new Date()
+    })
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Tipo de Usuario asignado a usuario"
+    })
+}
+
+const t_usuario_usuariosDelete = async (req: Request, res: Response) => {
     const { id } = req.params
     const respuesta = "Delete"
     res.json({ respuesta, id })
@@ -34,9 +67,8 @@ const t_usuario_usuariosDelete = async (req: any, res: any) => {
 
 
 module.exports = {
-    t_usuario_usuariosGet,
-    t_usuario_usuariosGetById,
+    t_usuario_usuariosGetByUserId,
+    t_usuario_usuariosGeUsers,
     t_usuario_usuariosPost,
-    t_usuario_usuariosPut,
     t_usuario_usuariosDelete
 } 

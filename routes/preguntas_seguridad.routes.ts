@@ -6,9 +6,6 @@ const { preguntas_seguridadGet, preguntas_seguridadGetById, preguntas_seguridadP
 
 const router = Router();
 
-// TODO: Agregar validaciones como middlewares [] antes del método del controlador
-// TODO: express-validator
-
 router.get('/', preguntas_seguridadGet);
 
 router.get('/:id', [

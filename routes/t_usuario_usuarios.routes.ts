@@ -1,16 +1,37 @@
 import { Router } from "express";
-const { t_usuario_usuariosGet, t_usuario_usuariosGetById, t_usuario_usuariosPost, t_usuario_usuariosPut, t_usuario_usuariosDelete } = require('../controllers/t_usuario_usuarios.controller')
+import { body, check, param } from "express-validator";
+import { validarCampos } from "../middlewares/validar-campos";
+import { existeCombinacion, existeTipoUsuario } from "../helpers/db-validators";
+const { t_usuario_usuariosGetByUserId, t_usuario_usuariosGeUsers, t_usuario_usuariosPost, t_usuario_usuariosDelete } = require('../controllers/t_usuario_usuarios.controller')
 
 const router = Router();
 
 // TODO: Agregar validaciones como middlewares [] antes del método del controlador
 // TODO: express-validator
 
-router.get('/', t_usuario_usuariosGet);
-router.get('/:id', t_usuario_usuariosGetById);
-router.post('/', t_usuario_usuariosPost);
-router.put('/:id', t_usuario_usuariosPut);
-router.delete('/:id', t_usuario_usuariosDelete);
+
+router.get('/get-by-user/:id', [
+    param('id').notEmpty(),
+    validarCampos
+], t_usuario_usuariosGetByUserId);
+
+router.get('/get-users/:id', [
+    param('id').notEmpty(),
+    validarCampos
+], t_usuario_usuariosGeUsers);
+
+router.post('/', [
+    check('USU_ID', 'Debe ingresar el id del usuario').notEmpty(),
+    check('TUS_ID', 'Debe ingresar el id del tipo de usuario').notEmpty(),
+    check('').custom(existeCombinacion),
+    validarCampos
+], t_usuario_usuariosPost);
+
+router.delete('/:id', [
+    param('id').custom(existeTipoUsuario),
+    check('TUS_ESTADO', "Debe ingresar un estado").notEmpty(),
+    validarCampos
+], t_usuario_usuariosDelete);
 
 
 module.exports = router;

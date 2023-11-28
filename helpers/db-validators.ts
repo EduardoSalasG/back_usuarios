@@ -1,5 +1,6 @@
 import { pregunta_seguridad } from '../models/pregunta_seguridad.model';
 import { tipo_usuario } from '../models/tipo_usuario.model'
+import { param } from 'express-validator';
 
 const existeTipoUsuario = async (id: number) => {
     const existeTipoUsuario = await tipo_usuario.findByPk(id);
@@ -7,10 +8,9 @@ const existeTipoUsuario = async (id: number) => {
 }
 
 const existePreguntaSeguridad = async (id: any) => {
-    const existePreguntaSeguridad = await pregunta_seguridad.findOne(id);
+    const existePreguntaSeguridad = await pregunta_seguridad.findByPk(id);
     if (!existePreguntaSeguridad) {
-        throw new Error(`El id ${id} no existe`)
-
+        throw new Error(`El id no existe`);
     }
 }
 

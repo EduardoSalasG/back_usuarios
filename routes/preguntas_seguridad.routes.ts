@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { check } from "express-validator";
+import { check, param } from "express-validator";
 import { validarCampos } from "../middlewares/validar-campos";
 import { existePreguntaSeguridad } from "../helpers/db-validators";
 const { preguntas_seguridadGet, preguntas_seguridadGetById, preguntas_seguridadPost, preguntas_seguridadPut, preguntas_seguridadDelete } = require('../controllers/preguntas_seguridad.controller')
@@ -12,7 +12,7 @@ const router = Router();
 router.get('/', preguntas_seguridadGet);
 
 router.get('/:id', [
-    check('PSE_ID').custom(existePreguntaSeguridad),
+    param('id').custom(existePreguntaSeguridad),
     validarCampos
 ], preguntas_seguridadGetById);
 

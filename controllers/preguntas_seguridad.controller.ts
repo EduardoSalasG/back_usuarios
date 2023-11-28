@@ -1,90 +1,69 @@
 import { Request, Response } from 'express';
 import { pregunta_seguridad } from '../models/pregunta_seguridad.model';
-import { existePreguntaSeguridad } from '../helpers/db-validators';
 
 
 const preguntas_seguridadGet = async (req: Request, res: Response) => {
-    try {
-        const ps_seguridad: pregunta_seguridad[] = await pregunta_seguridad.findAll()
-        res.status(200).json({
-            ok: true,
-            status: 200,
-            body: ps_seguridad
-        })
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ "message": "Hubo un error:", "error": error })
-    }
+    const ps_seguridad: pregunta_seguridad[] = await pregunta_seguridad.findAll()
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: ps_seguridad
+    })
 }
 
 const preguntas_seguridadGetById = async (req: Request, res: Response) => {
     const { id } = req.params
-
-    try {
-
-        const p_seguridad = await pregunta_seguridad.findByPk(id);
-
-        res.status(200).json({
-            ok: true,
-            status: 200,
-            body: p_seguridad
-        })
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ "message": "Hubo un error:", "error": error })
-    }
+    const p_seguridad = await pregunta_seguridad.findByPk(id);
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: p_seguridad
+    })
 }
 
 const preguntas_seguridadPost = async (req: Request, res: Response) => {
-    const { body } = req;
-    try {
-        const p_seguridad = new pregunta_seguridad(body);
-        await p_seguridad.save()
-        res.json(p_seguridad)
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ "message": "Hubo un error:", "error": error })
-    }
+    const { PSE_ENUNCIADO } = req.body;
+    await pregunta_seguridad.create({ PSE_ENUNCIADO: PSE_ENUNCIADO })
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Pregunta de seguridad creada"
+    })
 }
 
 const preguntas_seguridadPut = async (req: Request, res: Response) => {
     const { id } = req.params
-    const { body } = req;
-    try {
-        const p_seguridad = await pregunta_seguridad.findByPk(id)
-        //validador de que exista el id
-        if (!p_seguridad) {
-            return res.status(400).json("No existe el id")
-        }
-        await p_seguridad.update(body)
+    const { PSE_ID, createdAt, updatedAt, ...resto } = req.body;
 
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ "message": "Hubo un error:", "error": error })
-    }
+    pregunta_seguridad.update(resto, {
+        where: {
+            PSE_ID: id
+        }
+    })
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Pregunta de seguridad actualizada"
+    })
+
 }
 
 const preguntas_seguridadDelete = async (req: Request, res: Response) => {
-    const { id, estado } = req.params
-    try {
-        const p_seguridad = await pregunta_seguridad.findByPk(id)
-        //validador de que exista el id
-        if (!p_seguridad) {
-            return res.status(400).json("No existe el id")
+    const { id } = req.params
+
+    pregunta_seguridad.destroy({
+        where: {
+            PSE_ID: id
         }
-        await p_seguridad.destroy();
+    });
 
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ "message": "Hubo un error:", "error": error })
-    }
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Pregunta de seguridad eliminada"
+    })
 }
-
-
-
 
 module.exports = {
     preguntas_seguridadGet,

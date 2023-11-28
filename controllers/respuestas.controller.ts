@@ -1,43 +1,41 @@
-import { request, response } from 'express';
+import { Request, Response } from 'express';
 import { respuesta } from '../models/respuesta.model';
 
 
 
-const respuestasGet = async (req: Request, res: any) => {
-    const resultado = await respuesta.findAll()
-    res.json({ resultado })
+const respuestasGet = async (req: Request, res: Response) => {
+    const respuestas: respuesta[] = await respuesta.findAll()
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: respuestas
+    })
 }
 
-const respuestasGetById = async (req: any, res: any) => {
+const respuestasGetByUserId = async (req: Request, res: Response) => {
     const { id } = req.params
-    const respuesta = "GetByID"
-    res.json({ respuesta, id })
+
+    const respuestas = await respuesta.findByPk(id);
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: respuestas
+    })
 }
 
-const respuestasPost = async (req: Request, res: any) => {
-    const respuesta = "Post"
-    res.json({ respuesta })
+const respuestasPost = async (req: Request, res: Response) => {
+    const { RES_RESPUESTA, USU_ID, PSE_ID } = req.body;
+    //TODO: VALIDAR QUE LOS PK NO ESTEN REPETIDOS
+    await respuesta.create({ RES_RESPUESTA: RES_RESPUESTA, RES_FECHA: new Date(), USU_ID: USU_ID, PSE_ID: PSE_ID })
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Respuesta creada"
+    })
 }
-
-const respuestasPut = async (req: any, res: any) => {
-    const { id } = req.params
-    const respuesta = "Put"
-    res.json({ respuesta, id })
-}
-
-const respuestasDelete = async (req: any, res: any) => {
-    const { id } = req.params
-    const respuesta = "Delete"
-    res.json({ respuesta, id })
-}
-
-
-
 
 module.exports = {
     respuestasGet,
-    respuestasGetById,
+    respuestasGetByUserId,
     respuestasPost,
-    respuestasPut,
-    respuestasDelete
 } 

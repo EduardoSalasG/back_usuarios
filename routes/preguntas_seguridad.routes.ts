@@ -19,13 +19,13 @@ router.post('/', [
 ], preguntas_seguridadPost);
 
 router.put('/:id', [
-    check('PSE_ID').custom(existePreguntaSeguridad),
+    param('id').custom(existePreguntaSeguridad),
     check('PSE_ENUNCIADO', 'Debes ingresar el enunciado de la pregunta').notEmpty(),
     validarCampos
 ], preguntas_seguridadPut);
 
 router.delete('/:id', [
-    check('PSE_ID').custom(existePreguntaSeguridad),
+    param('id').custom(existePreguntaSeguridad),
     validarCampos
 ], preguntas_seguridadDelete);
 

@@ -1,5 +1,8 @@
 import { Router } from "express";
-const { respuestasGet, respuestasGetById, respuestasPost, respuestasPut, respuestasDelete } = require('../controllers/respuestas.controller')
+import { check, param } from "express-validator";
+import { validarCampos } from "../middlewares/validar-campos";
+import { existeRespuesta } from "../helpers/db-validators";
+const { respuestasGet, respuestasGetByUserId, respuestasPost } = require('../controllers/respuestas.controller')
 
 
 const router = Router();
@@ -8,10 +11,15 @@ const router = Router();
 // TODO: express-validator
 
 router.get('/', respuestasGet);
-router.get('/:id', respuestasGetById);
-router.post('/', respuestasPost);
-router.put('/:id', respuestasPut);
-router.delete('/:id', respuestasDelete);
 
+router.get('/:id', [
+    param('id').custom(existeRespuesta),
+    validarCampos
+], respuestasGetByUserId);
+
+router.post('/', [
+    check('RES_RESPUESTA', 'Debes ingresar el enunciado de la respuesta').notEmpty(),
+    validarCampos
+], respuestasPost);
 
 module.exports = router;

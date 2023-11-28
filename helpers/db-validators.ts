@@ -1,5 +1,7 @@
 import { pregunta_seguridad } from '../models/pregunta_seguridad.model';
+import { respuesta } from '../models/respuesta.model';
 import { tipo_usuario } from '../models/tipo_usuario.model'
+import { usuario } from '../models/usuario.model';
 import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
 
 const existeTipoUsuario = async (id: number) => {
@@ -12,6 +14,19 @@ const existeTipoUsuario = async (id: number) => {
 const existePreguntaSeguridad = async (id: any) => {
     const existePreguntaSeguridad = await pregunta_seguridad.findByPk(id);
     if (!existePreguntaSeguridad) {
+        throw new Error(`El id no existe`);
+    }
+}
+
+const existeRespuesta = async (id: any) => {
+    const existeRespuesta = await respuesta.findByPk(id);
+    if (!existeRespuesta) {
+        throw new Error(`El id no existe`);
+    }
+}
+const existeUsuario = async (id: any) => {
+    const existeUsuario = await usuario.findByPk(id);
+    if (!existeUsuario) {
         throw new Error(`El id no existe`);
     }
 }
@@ -47,5 +62,7 @@ const existeCombinacion = async (body: any) => {
 export {
     existeTipoUsuario,
     existePreguntaSeguridad,
-    existeCombinacion
+    existeCombinacion,
+    existeRespuesta,
+    existeUsuario
 }

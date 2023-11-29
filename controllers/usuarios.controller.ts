@@ -61,7 +61,7 @@ const usuariosPut = async (req: Request, res: Response) => {
         USU_ULTIMA_PASS: resto.USU_CONTRASENA
     }, {
         where: {
-            USU_NOMBRE: id
+            USU_ID: id
         }
     })
 
@@ -76,7 +76,7 @@ const usuariosDelete = async (req: Request, res: Response) => {
     const { id } = req.params
     usuario.update({ USU_ESTADO: false }, {
         where: {
-            PSE_ID: id
+            USU_ID: id
         }
     })
 }

@@ -3,7 +3,6 @@ import { respuesta } from '../models/respuesta.model';
 import { tipo_usuario } from '../models/tipo_usuario.model'
 import { usuario } from '../models/usuario.model';
 import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
-const Sequelize = require('sequelize');
 
 const existeTipoUsuario = async (id: number) => {
     const existeTipoUsuario = await tipo_usuario.findByPk(id);
@@ -95,8 +94,7 @@ const existeMail = async (mail: any) => {
         }
     })
 
-    console.log(existeMail)
-    if (existeMail) {
+    if (existeMail.length > 0) {
         throw new Error(`El email ya está en uso`);
     }
 }

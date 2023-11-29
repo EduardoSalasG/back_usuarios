@@ -51,7 +51,6 @@ const usuariosPost = async (req: Request, res: Response) => {
 const usuariosPut = async (req: Request, res: Response) => {
     const { id } = req.params
     const { USU_CONTRASENA, USU_ULTIMA_PASS } = req.body
-    console.log(USU_CONTRASENA, USU_ULTIMA_PASS)
     usuario.update({
         USU_ULTIMA_PASS: await encrypt(USU_ULTIMA_PASS),
         USU_CONTRASENA: await encrypt(USU_CONTRASENA),

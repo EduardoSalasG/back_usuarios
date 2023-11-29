@@ -50,12 +50,12 @@ const usuariosPost = async (req: Request, res: Response) => {
 
 const usuariosPut = async (req: Request, res: Response) => {
     const { id } = req.params
-    const { passActual, passNueva } = req.body
-
+    const { USU_CONTRASENA, USU_ULTIMA_PASS } = req.body
+    console.log(USU_CONTRASENA, USU_ULTIMA_PASS)
     usuario.update({
-        USU_CONTRASENA: await encrypt(passNueva),
+        USU_ULTIMA_PASS: await encrypt(USU_ULTIMA_PASS),
+        USU_CONTRASENA: await encrypt(USU_CONTRASENA),
         USU_FECHA_ACTUALIZACION_ULTIMA_PASS: new Date(),
-        USU_ULTIMA_PASS: await encrypt(passActual)
     }, {
         where: {
             USU_ID: id
@@ -75,6 +75,12 @@ const usuariosDelete = async (req: Request, res: Response) => {
         where: {
             USU_ID: id
         }
+    })
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Usuario deshabilitado"
     })
 }
 

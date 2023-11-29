@@ -4,6 +4,7 @@ import { tipo_usuario } from '../models/tipo_usuario.model'
 import { usuario } from '../models/usuario.model';
 import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
 import { check } from './password-encryption';
+import { compareSync } from 'bcrypt';
 
 const existeTipoUsuario = async (id: number) => {
     const existeTipoUsuario = await tipo_usuario.findByPk(id);
@@ -101,17 +102,32 @@ const existeMail = async (mail: any) => {
 }
 
 const passwordValido = async (body: any) => {
-    const { USU_CONTRASENA } = body
+    const { USU_CONTRASENA, USU_ULTIMA_PASS } = body
     const id = body.USU_ID
-
     const contrasenaDb: any = await usuario.findByPk(id, {
         attributes: ['USU_CONTRASENA']
     })
 
-    const valido = await check(USU_CONTRASENA, contrasenaDb);
+    const contrasenaActual = USU_CONTRASENA.toString();
+    const contrasenaDbString = contrasenaDb.USU_CONTRASENA.toString();
+
+    const valido = await check(contrasenaActual, contrasenaDbString);
+
 
     if (valido) {
         throw new Error(`Contraseña inválida`);
+    }
+    return !valido
+
+}
+
+const UsuarioEstaDeshabilitado = async (id: any) => {
+    const estadoUsuario: any = await usuario.findByPk(id, {
+        attributes: ['USU_ESTADO']
+    })
+
+    if (!estadoUsuario.USU_ESTADO) {
+        throw new Error(`El usuario ya está deshabilitado`);
     }
 }
 
@@ -124,5 +140,6 @@ export {
     existeUsuario,
     existeRespuestaUsuario,
     existeMail,
-    passwordValido
+    passwordValido,
+    UsuarioEstaDeshabilitado
 }

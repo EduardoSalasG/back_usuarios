@@ -1,5 +1,5 @@
 import { body, check, param } from "express-validator";
-import { existeMail, existeUsuario, passwordValido } from "../helpers/db-validators";
+import { UsuarioEstaDeshabilitado, existeMail, existeUsuario, passwordValido } from "../helpers/db-validators";
 import { validarCampos } from "../middlewares/validar-campos";
 import { validarRut } from "../helpers/moduloEleven";
 
@@ -31,9 +31,9 @@ router.post('/', [
         .isBoolean(),
     check('USU_CORREO', 'Debe ingresar un correo válido')
         .notEmpty()
-        .isEmail().
-        custom(existeMail),
-    check('USU_CONTRASENA', 'Debe ingresar la contraseña')
+        .isEmail()
+        .custom(existeMail),
+    check('USU_CONTRASENA', 'Debe ingresar una contraseña válida')
         .notEmpty()
         .isStrongPassword({
             minLength: 8,
@@ -47,12 +47,22 @@ router.post('/', [
 
 router.put('/:id', [
     param('id').custom(existeUsuario),
+    check('USU_CONTRASENA', 'Debe ingresar una contraseña válida')
+        .notEmpty()
+        .isStrongPassword({
+            minLength: 8,
+            minNumbers: 1,
+            minLowercase: 1,
+            minUppercase: 1,
+            minSymbols: 1
+        }),
     body('').custom(passwordValido),
     validarCampos
 ], usuariosPut);
 
 router.delete('/:id', [
     param('id').custom(existeUsuario),
+    param('id').custom(UsuarioEstaDeshabilitado),
     validarCampos
 ], usuariosDelete);
 

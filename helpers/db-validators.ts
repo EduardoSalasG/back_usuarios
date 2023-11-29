@@ -3,7 +3,7 @@ import { respuesta } from '../models/respuesta.model';
 import { tipo_usuario } from '../models/tipo_usuario.model'
 import { usuario } from '../models/usuario.model';
 import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
-const Sequelize = require('sequelize');
+import { check } from './password-encryption';
 
 const existeTipoUsuario = async (id: number) => {
     const existeTipoUsuario = await tipo_usuario.findByPk(id);
@@ -101,9 +101,18 @@ const existeMail = async (mail: any) => {
     }
 }
 
+const passwordValido = async (id: number, password: string) => {
 
+    const contrasenaDb: any = await usuario.findByPk(id, {
+        attributes: ['USU_CONTRASENA']
+    })
 
+    const valido = await check(password, contrasenaDb);
 
+    if (valido) {
+        throw new Error(`Contraseña inválida`);
+    }
+}
 
 export {
     existeTipoUsuario,
@@ -113,5 +122,6 @@ export {
     existeRespuesta,
     existeUsuario,
     existeRespuestaUsuario,
-    existeMail
+    existeMail,
+    passwordValido
 }

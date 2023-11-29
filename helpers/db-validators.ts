@@ -38,20 +38,16 @@ const existeCombinacion = async (body: any) => {
     const TUS_ID = body.TUS_ID
     const USU_ID = body.USU_ID
 
-    const consulta = await tipo_usuario_usuario.findAndCountAll({
+    await tipo_usuario_usuario.findAndCountAll({
         where: {
             'USU_ID': USU_ID,
             'TUS_ID': TUS_ID
         }
     }).then(x => {
-        return x.count
+        if (x.count >= 1) {
+            throw new Error('El usuario ya tiene asignado el tipo de usuario')
+        }
     })
-
-    console.log("aquí", "TUS_ID", TUS_ID, "USU_ID", USU_ID, consulta)
-
-    if (consulta >= 1) {
-        throw new Error('El usuario ya tiene asignado el tipo de usuario')
-    }
 }
 
 const existeRespuestaUsuario = async (body: any) => {

@@ -25,7 +25,7 @@ router.post('/', [
     check('TUS_ID', 'Debe ingresar el id del tipo de usuario').notEmpty(),
     check('USU_ID').custom(existeUsuario),
     check('TUS_ID').custom(existeTipoUsuario),
-    check('').custom(existeCombinacion),
+    body('').custom(existeCombinacion),
     validarCampos
 ], t_usuario_usuariosPost);
 

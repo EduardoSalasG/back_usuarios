@@ -43,7 +43,7 @@ usuario.init({
     allowNull: false
   },
   USU_CONTRASENA: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.STRING(100),
     allowNull: false
   },
   USU_FECHA_CREACION: {
@@ -55,7 +55,7 @@ usuario.init({
     allowNull: false
   },
   USU_ULTIMA_PASS: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.STRING(100),
     allowNull: false
   },
   USU_ESTADO: {

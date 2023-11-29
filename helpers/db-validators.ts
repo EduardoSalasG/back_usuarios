@@ -100,13 +100,15 @@ const existeMail = async (mail: any) => {
     }
 }
 
-const passwordValido = async (id: number, password: string) => {
+const passwordValido = async (body: any) => {
+    const { USU_CONTRASENA } = body
+    const id = body.USU_ID
 
     const contrasenaDb: any = await usuario.findByPk(id, {
         attributes: ['USU_CONTRASENA']
     })
 
-    const valido = await check(password, contrasenaDb);
+    const valido = await check(USU_CONTRASENA, contrasenaDb);
 
     if (valido) {
         throw new Error(`Contraseña inválida`);

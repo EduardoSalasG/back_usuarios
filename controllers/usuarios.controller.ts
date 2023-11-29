@@ -27,6 +27,7 @@ const usuariosPost = async (req: Request, res: Response) => {
         USU_APELLIDO_PAT, USU_APELLIDO_MAT,
         USU_RUT, USU_GENERO,
         USU_CORREO, USU_CONTRASENA } = req.body;
+    const passwordEncriptada = await encrypt(USU_CONTRASENA)
     await usuario.create({
         USU_NOMBRE: USU_NOMBRE,
         USU_APELLIDO_PAT: USU_APELLIDO_PAT,
@@ -34,10 +35,10 @@ const usuariosPost = async (req: Request, res: Response) => {
         USU_RUT: USU_RUT,
         USU_GENERO: USU_GENERO,
         USU_CORREO: USU_CORREO,
-        USU_CONTRASENA: USU_CONTRASENA,
+        USU_CONTRASENA: passwordEncriptada,
         USU_FECHA_CREACION: new Date(),
         USU_FECHA_ACTUALIZACION_ULTIMA_PASS: new Date(),
-        USU_ULTIMA_PASS: encrypt(USU_CONTRASENA),
+        USU_ULTIMA_PASS: passwordEncriptada,
         USU_ESTADO: true
     })
     res.status(200).json({
@@ -49,16 +50,12 @@ const usuariosPost = async (req: Request, res: Response) => {
 
 const usuariosPut = async (req: Request, res: Response) => {
     const { id } = req.params
-    const { USU_NOMBRE, USU_APELLIDO_PAT,
-        USU_APELLIDO_MAT, USU_RUT,
-        USU_GENERO, USU_CORREO,
-        USU_FECHA_CREACION, USU_ESTADO,
-        createdAt, updatedAt, ...resto } = req.body;
+    const { passActual, passNueva } = req.body
 
     usuario.update({
-        resto,
+        USU_CONTRASENA: await encrypt(passNueva),
         USU_FECHA_ACTUALIZACION_ULTIMA_PASS: new Date(),
-        USU_ULTIMA_PASS: resto.USU_CONTRASENA
+        USU_ULTIMA_PASS: await encrypt(passActual)
     }, {
         where: {
             USU_ID: id

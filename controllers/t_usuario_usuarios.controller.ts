@@ -1,8 +1,5 @@
 import { Request, Response } from 'express';
 import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
-import { tipo_usuario } from '../models/tipo_usuario.model';
-import { NOW } from 'sequelize';
-
 
 //FIXME: Arreglar include: "is not associated"
 const t_usuario_usuariosGetByUserId = async (req: Request, res: Response) => {

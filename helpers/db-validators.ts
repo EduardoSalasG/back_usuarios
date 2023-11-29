@@ -50,6 +50,22 @@ const existeCombinacion = async (body: any) => {
     })
 }
 
+const noExisteCombinacion = async (body: any) => {
+    const TUS_ID = body.TUS_ID
+    const USU_ID = body.USU_ID
+
+    await tipo_usuario_usuario.findAndCountAll({
+        where: {
+            'USU_ID': USU_ID,
+            'TUS_ID': TUS_ID
+        }
+    }).then(x => {
+        if (x.count == 0) {
+            throw new Error('El usuario no tiene asignado el tipo de usuario')
+        }
+    })
+}
+
 const existeRespuestaUsuario = async (body: any) => {
     const USU_ID = body.USU_ID
     const PSE_ID = body.PSE_ID
@@ -93,6 +109,7 @@ export {
     existeTipoUsuario,
     existePreguntaSeguridad,
     existeCombinacion,
+    noExisteCombinacion,
     existeRespuesta,
     existeUsuario,
     existeRespuestaUsuario,

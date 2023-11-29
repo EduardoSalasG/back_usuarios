@@ -41,8 +41,11 @@ const t_usuario_usuariosGeUsers = async (req: Request, res: Response) => {
     })
 }
 
+
 const t_usuario_usuariosPost = async (req: Request, res: Response) => {
     const { USU_ID, TUS_ID } = req.body;
+
+    console.log(USU_ID, TUS_ID)
 
     await tipo_usuario_usuario.create({
         USU_ID: USU_ID,
@@ -58,9 +61,20 @@ const t_usuario_usuariosPost = async (req: Request, res: Response) => {
 }
 
 const t_usuario_usuariosDelete = async (req: Request, res: Response) => {
-    const { id } = req.params
-    const respuesta = "Delete"
-    res.json({ respuesta, id })
+    const { USU_ID, TUS_ID } = req.body;
+
+    tipo_usuario_usuario.destroy({
+        where: {
+            TUS_ID: TUS_ID,
+            USU_ID: USU_ID
+        }
+    })
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        message: "Asignación de tipo de usuario borrada del usuario"
+    })
 }
 
 

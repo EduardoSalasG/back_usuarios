@@ -1,6 +1,7 @@
-import { check, param } from "express-validator";
+import { body, check, param } from "express-validator";
 import { existeMail, existeUsuario } from "../helpers/db-validators";
 import { validarCampos } from "../middlewares/validar-campos";
+import { validarRut } from "../helpers/moduloEleven";
 
 const { Router } = require('express');
 const { usuariosGet, usuariosGetById, usuariosPost, usuariosPut, usuariosDelete } = require('../controllers/usuarios.controller');
@@ -24,6 +25,7 @@ router.post('/', [
     check('USU_APELLIDO_PAT', 'Debe ingresar el apellido paterno').notEmpty(),
     check('USU_APELLIDO_MAT', 'Debe ingresar el apellido materno').notEmpty(),
     check('USU_RUT', 'Debe ingresar el rut').notEmpty(),
+    body('').custom(validarRut),
     check('USU_GENERO', 'Debe ingresar el genero').notEmpty(),
     check('USU_CORREO', 'Debe ingresar el correo').notEmpty(),
     check('USU_CORREO', 'Debe ingresar el correo válido').isEmail(),

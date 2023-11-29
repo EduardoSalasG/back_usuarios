@@ -95,8 +95,7 @@ const existeMail = async (mail: any) => {
         }
     })
 
-    console.log(existeMail)
-    if (existeMail) {
+    if (existeMail.length > 0) {
         throw new Error(`El email ya está en uso`);
     }
 }

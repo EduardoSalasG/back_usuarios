@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { usuario } from '../models/usuario.model';
+import { encrypt } from '../helpers/password-encryption';
 
 
 const usuariosGet = async (req: Request, res: Response) => {
@@ -36,7 +37,7 @@ const usuariosPost = async (req: Request, res: Response) => {
         USU_CONTRASENA: USU_CONTRASENA,
         USU_FECHA_CREACION: new Date(),
         USU_FECHA_ACTUALIZACION_ULTIMA_PASS: new Date(),
-        USU_ULTIMA_PASS: USU_CONTRASENA,
+        USU_ULTIMA_PASS: encrypt(USU_CONTRASENA),
         USU_ESTADO: true
     })
     res.status(200).json({

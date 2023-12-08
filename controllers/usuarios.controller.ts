@@ -2,18 +2,46 @@ import { Request, Response } from 'express';
 import { usuario } from '../models/usuario.model';
 import { check, encrypt } from '../helpers/password-encryption';
 import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
+import { JwtAdapter } from '../helpers/jwt';
 
-const emailValido = async (USU_CORREO: any) => {
-    // const usuarioResponse: any = await usuario.findOne({ where: { USU_CORREO } });
+const validarToken = async (req: Request, res: Response) => {
+    const token: any = req.header('token')
 
-    // if (!usuarioResponse) {
-    //     res.status(200).json({
-    //         ok: false,
-    //         status: 400,
-    //         msg: "Password o EMAIL no válido"
-    //     })
-    //     return
-    // }
+    const payload: any = await JwtAdapter.validateToken(token);
+
+    if (!payload) {
+        res.status(200).json({
+            ok: false,
+            status: 400,
+            msg: "Token no válido"
+        })
+        return
+    }
+
+    const { email } = payload
+    if (!email) {
+        res.status(200).json({
+            ok: false,
+            status: 400,
+            msg: "Email no está en token"
+        })
+        return
+    }
+
+    const user = await usuario.findOne({ where: { USU_CORREO: email } });
+    if (!user) {
+        res.status(200).json({
+            ok: false,
+            status: 400,
+            msg: "Email no existe"
+        })
+        return
+    }
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+    })
 }
 
 
@@ -63,11 +91,36 @@ const usuarioLogin = async (req: Request, res: Response) => {
         return
     }
 
+    const tipoUsuario: any = await tipo_usuario_usuario.findAll(
+        {
+            where: { USU_ID: usuarioResponse.USU_ID },
+            attributes: ['TUS_ID']
+        });
+
+
+
+    const tipos = tipoUsuario.map((tipoUsuario: any) => tipoUsuario.TUS_ID);
+
+    const token = await JwtAdapter.generateToken(
+        {
+            id: usuarioResponse.USU_ID,
+            nombre: usuarioResponse.USU_NOMBRE,
+            email: usuarioResponse.USU_CORREO,
+            tipoUsuario: tipos
+        })
+    if (!token) {
+        res.status(400).json({
+            ok: false,
+            status: 400,
+            msg: "Error al crear el token"
+        })
+        return
+    }
+
     res.status(200).json({
         ok: true,
         status: 200,
-        body: usuarioResponse,
-        token: "token"
+        token: token
     })
 
 }
@@ -162,5 +215,6 @@ module.exports = {
     usuariosPost,
     usuariosPut,
     usuariosDelete,
-    usuarioLogin
+    usuarioLogin,
+    validarToken
 } 

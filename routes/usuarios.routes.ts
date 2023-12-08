@@ -4,7 +4,7 @@ import { validarCampos } from "../middlewares/validar-campos";
 import { validarRut } from "../helpers/moduloEleven";
 
 const { Router } = require('express');
-const { usuariosGet, usuariosGetById, usuariosPost, usuariosPut, usuariosDelete, usuarioLogin } = require('../controllers/usuarios.controller');
+const { usuariosGet, usuariosGetById, usuariosPost, usuariosPut, usuariosDelete, usuarioLogin, validarToken } = require('../controllers/usuarios.controller');
 
 const router = Router();
 
@@ -74,5 +74,11 @@ router.post('/login', [
         .notEmpty(),
     validarCampos
 ], usuarioLogin);
+
+router.post('/validar-token', [
+    check('token', 'Debe ingresar un token')
+        .notEmpty(),
+    validarCampos
+], validarToken);
 
 module.exports = router;

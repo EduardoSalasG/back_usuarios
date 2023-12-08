@@ -1,4 +1,4 @@
-import { body, check, param } from "express-validator";
+import { body, check, header, param } from "express-validator";
 import { UsuarioEstaDeshabilitado, existeMail, existeUsuario, passwordValido } from "../helpers/db-validators";
 import { validarCampos } from "../middlewares/validar-campos";
 import { validarRut } from "../helpers/moduloEleven";
@@ -74,11 +74,5 @@ router.post('/login', [
         .notEmpty(),
     validarCampos
 ], usuarioLogin);
-
-router.post('/validar-token', [
-    check('token', 'Debe ingresar un token')
-        .notEmpty(),
-    validarCampos
-], validarToken);
 
 module.exports = router;

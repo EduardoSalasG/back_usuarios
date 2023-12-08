@@ -4,47 +4,6 @@ import { check, encrypt } from '../helpers/password-encryption';
 import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
 import { JwtAdapter } from '../helpers/jwt';
 
-const validarToken = async (req: Request, res: Response) => {
-    const token: any = req.header('token')
-
-    const payload: any = await JwtAdapter.validateToken(token);
-
-    if (!payload) {
-        res.status(200).json({
-            ok: false,
-            status: 400,
-            msg: "Token no válido"
-        })
-        return
-    }
-
-    const { email } = payload
-    if (!email) {
-        res.status(200).json({
-            ok: false,
-            status: 400,
-            msg: "Email no está en token"
-        })
-        return
-    }
-
-    const user = await usuario.findOne({ where: { USU_CORREO: email } });
-    if (!user) {
-        res.status(200).json({
-            ok: false,
-            status: 400,
-            msg: "Email no existe"
-        })
-        return
-    }
-
-    res.status(200).json({
-        ok: true,
-        status: 200,
-    })
-}
-
-
 const usuarioLogin = async (req: Request, res: Response) => {
 
     const { USU_CORREO, USU_CONTRASENA } = req.body;
@@ -83,12 +42,12 @@ const usuarioLogin = async (req: Request, res: Response) => {
     })
 
     if (!estadoUsuario.USU_ESTADO) {
-        res.status(200).json({
+        return res.status(200).json({
             ok: false,
             status: 401,
             msg: "El usuario está deshabilitado"
         })
-        return
+
     }
 
     const tipoUsuario: any = await tipo_usuario_usuario.findAll(
@@ -215,6 +174,5 @@ module.exports = {
     usuariosPost,
     usuariosPut,
     usuariosDelete,
-    usuarioLogin,
-    validarToken
+    usuarioLogin
 } 

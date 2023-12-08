@@ -9,6 +9,7 @@ class Server {
     preguntaSeguridadPath: string;
     respuestasPath: string;
     tipoUsuarioUsuarios: string;
+    authPath: string;
 
     constructor() {
         this.app = express();
@@ -18,6 +19,7 @@ class Server {
         this.preguntaSeguridadPath = '/preguntas_seguridad'
         this.respuestasPath = '/respuestas'
         this.tipoUsuarioUsuarios = '/tipo_usuario_usuarios'
+        this.authPath = '/auth'
 
         // Conectar a base de datos
         this.conectarDB();
@@ -51,6 +53,7 @@ class Server {
         this.app.use(this.preguntaSeguridadPath, require('../routes/preguntas_seguridad.routes'))
         this.app.use(this.respuestasPath, require('../routes/respuestas.routes'))
         this.app.use(this.tipoUsuarioUsuarios, require('../routes/t_usuario_usuarios.routes'))
+        this.app.use(this.authPath, require('../routes/auth.routes'))
 
 
     }

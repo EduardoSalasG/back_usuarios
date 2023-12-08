@@ -141,5 +141,5 @@ export {
     existeRespuestaUsuario,
     existeMail,
     passwordValido,
-    UsuarioEstaDeshabilitado
+    UsuarioEstaDeshabilitado,
 }

@@ -21,7 +21,6 @@ async function check(plainPassword: string, encryptedPassword: string) {
     await bcrypt.compare(plainPassword, encryptedPassword)
         .then((resultado: boolean) => {
             result = resultado
-            console.log(result)
         })
 
     return result

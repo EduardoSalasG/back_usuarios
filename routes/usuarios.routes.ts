@@ -4,7 +4,7 @@ import { validarCampos } from "../middlewares/validar-campos";
 import { validarRut } from "../helpers/moduloEleven";
 
 const { Router } = require('express');
-const { usuariosGet, usuariosGetById, usuariosPost, usuariosPut, usuariosDelete } = require('../controllers/usuarios.controller');
+const { usuariosGet, usuariosGetById, usuariosPost, usuariosPut, usuariosDelete, usuarioLogin } = require('../controllers/usuarios.controller');
 
 const router = Router();
 
@@ -65,5 +65,14 @@ router.delete('/:id', [
     param('id').custom(UsuarioEstaDeshabilitado),
     validarCampos
 ], usuariosDelete);
+
+router.post('/login', [
+    check('USU_CORREO', 'Debe ingresar un correo válido')
+        .notEmpty()
+        .isEmail(),
+    check('USU_CONTRASENA', 'Debe ingresar una contraseña válida')
+        .notEmpty(),
+    validarCampos
+], usuarioLogin);
 
 module.exports = router;

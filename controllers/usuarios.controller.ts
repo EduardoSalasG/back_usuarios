@@ -1,6 +1,76 @@
 import { Request, Response } from 'express';
 import { usuario } from '../models/usuario.model';
-import { encrypt } from '../helpers/password-encryption';
+import { check, encrypt } from '../helpers/password-encryption';
+import { tipo_usuario_usuario } from '../models/tipo_usuario_usuario.model';
+
+const emailValido = async (USU_CORREO: any) => {
+    // const usuarioResponse: any = await usuario.findOne({ where: { USU_CORREO } });
+
+    // if (!usuarioResponse) {
+    //     res.status(200).json({
+    //         ok: false,
+    //         status: 400,
+    //         msg: "Password o EMAIL no válido"
+    //     })
+    //     return
+    // }
+}
+
+
+const usuarioLogin = async (req: Request, res: Response) => {
+
+    const { USU_CORREO, USU_CONTRASENA } = req.body;
+
+    //validar email
+    const usuarioResponse: any = await usuario.findOne({ where: { USU_CORREO } });
+
+    if (!usuarioResponse) {
+        res.status(200).json({
+            ok: false,
+            status: 400,
+            msg: "Password o EMAIL no válido"
+        })
+        return
+    }
+
+    //validar contraseña
+    const contrasenaActual = USU_CONTRASENA.toString();
+    const contrasenaDbString = usuarioResponse.USU_CONTRASENA.toString();
+
+    const valido = await check(contrasenaActual, contrasenaDbString);
+
+    if (!valido) {
+        res.status(200).json({
+            ok: false,
+            status: 400,
+            msg: "PASSWORD o email no válido"
+        })
+        return
+    }
+
+    //validar estado
+
+    const estadoUsuario: any = await usuario.findByPk(usuarioResponse.USU_ID, {
+        attributes: ['USU_ESTADO']
+    })
+
+    if (!estadoUsuario.USU_ESTADO) {
+        res.status(200).json({
+            ok: false,
+            status: 401,
+            msg: "El usuario está deshabilitado"
+        })
+        return
+    }
+
+    res.status(200).json({
+        ok: true,
+        status: 200,
+        body: usuarioResponse,
+        token: "token"
+    })
+
+}
 
 
 const usuariosGet = async (req: Request, res: Response) => {
@@ -91,5 +161,6 @@ module.exports = {
     usuariosGetById,
     usuariosPost,
     usuariosPut,
-    usuariosDelete
+    usuariosDelete,
+    usuarioLogin
 } 

@@ -44,9 +44,12 @@ const validarToken = async (req: Request, res: Response) => {
 
     }
 
+    const { iat, exp, ...resto } = payload
+
     res.status(200).json({
         ok: true,
         status: 200,
+        user: resto
     })
 }
 
